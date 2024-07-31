@@ -1,0 +1,41 @@
+- name: Create temporary build directory
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: build
+  register: builddir_res
+
+# get the created dir
+- set_fact: 
+    builddir: "{{ builddir_res.path }}"
+
+# Use a plaintext deploy key, not great but it's only per-repo and read-only
+- name: Copy over the deploy key
+  ansible.builtin.copy:
+    src: files/config_deploy_key
+    dest: "{{ builddir }}/config_deploy_key"
+    mode: '0600'
+
+- name: Clone the main repo
+  ansible.builtin.git:
+    repo: https://github.com/lkzjdnb/industrial_bridge.git
+    dest: "{{ builddir }}/industrial_bridge"
+
+
+- name: Clone the config repo
+  ansible.builtin.git:
+    repo: git@github.com:lkzjdnb/bridge_config.git
+    dest: "{{ builddir }}/config"
+    key_file: "{{ builddir }}/config_deploy_key"
+    accept_hostkey: yes
+
+- name: Upload the Dockefile
+  ansible.builtin.template:
+    src: templates/Dockerfile.j2
+    dest: "{{ builddir }}/Dockerfile"
+
+- name: Build the docker image (this can take some time >15min)
+  community.docker.docker_image:
+    name: industrial_bridge
+    build:
+      path: "{{ builddir }}"
+    source: build

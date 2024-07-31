@@ -1,0 +1,10 @@
+FROM rust:1.80-alpine3.20 as builder
+RUN apk add --no-cache musl-dev
+COPY industrial_bridge industrial_bridge
+WORKDIR industrial_bridge
+RUN cargo install --path .
+
+FROM alpine:3.20
+COPY --from=builder /usr/local/cargo/bin/industrial_bridge /usr/local/bin/industrial_bridge
+COPY config .
+CMD ["industrial_bridge", "-c", "config.yaml"]

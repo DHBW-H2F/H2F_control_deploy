@@ -1,0 +1,39 @@
+---
+- name: Install H2F station software
+  hosts: station_servers
+
+  pre_tasks:
+    - name: Ensure that git is installed
+      become: true
+      ansible.builtin.package:
+        name: git
+        state: present
+    - name: Ensure that pip is installed
+      become: true
+      ansible.builtin.package:
+        name: py3-pip
+        state: present
+    - name: Ensure that requests is installed
+      become: true
+      ansible.builtin.package:
+        name: py3-requests
+        state: present
+    - name: Ensure that docker is installed
+      become: true
+      ansible.builtin.package:
+        name: docker
+        state: present
+    - name: Ensure that docker is started
+      become: true
+      ansible.builtin.service:
+        name: docker
+        state: started
+    - name: Add the user to the docker group
+      user:
+        name: "{{ ansible_user }}"
+        groups: "docker"
+        append: yes
+
+  roles:
+    - industrial_bridge
+
