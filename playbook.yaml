@@ -3,25 +3,36 @@
   hosts: station_servers
 
   pre_tasks:
+    - name: Create the main folder
+      ansible.builtin.file:
+        path: "{{ folder }}"
+        state: directory
+        mode: '0755'
+        
     - name: Ensure that git is installed
       become: true
       ansible.builtin.package:
         name: git
         state: present
-    - name: Ensure that pip is installed
-      become: true
-      ansible.builtin.package:
-        name: py3-pip
-        state: present
     - name: Ensure that requests is installed
       become: true
       ansible.builtin.package:
-        name: py3-requests
+        name: python3-requests
+        state: present
+    - name: Ensure that docker library is installed
+      become: true
+      ansible.builtin.package:
+        name: python3-docker
         state: present
     - name: Ensure that docker is installed
       become: true
       ansible.builtin.package:
         name: docker
+        state: present
+    - name: Ensure that docker-compose is installed
+      become: true
+      ansible.builtin.package:
+        name: docker-compose
         state: present
     - name: Ensure that docker is started
       become: true
@@ -29,10 +40,14 @@
         name: docker
         state: started
     - name: Add the user to the docker group
+      become: true
       user:
         name: "{{ ansible_user }}"
         groups: "docker"
         append: yes
+    - name: Reset ssh connection to reload groups
+      ansible.builtin.meta:
+        reset_connection
 
   roles:
     - industrial_bridge

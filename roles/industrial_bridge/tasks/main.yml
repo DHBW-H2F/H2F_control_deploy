@@ -39,3 +39,19 @@
     build:
       path: "{{ builddir }}"
     source: build
+
+- name: Create the bridge folder
+  ansible.builtin.file:
+    path: "{{ bridge_folder }}"
+    state: directory
+    mode: '0755'
+
+- name: Upload the compose file
+  ansible.builtin.template:
+    src: templates/compose.yaml.j2
+    dest: "{{ bridge_folder }}/docker-compose.yaml"
+
+- name: Start the compose file
+  community.docker.docker_compose:
+    project_src: "{{ bridge_folder }}"
+  register: output
