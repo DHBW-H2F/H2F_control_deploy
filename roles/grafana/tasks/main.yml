@@ -33,6 +33,7 @@
 - name: Wait for influxdb to start
   ansible.builtin.wait_for:
     port: 8086
+    delay: 5
 
 - name: Get the grafana token
   community.docker.docker_container_exec:
