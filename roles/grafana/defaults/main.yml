@@ -1,2 +1,7 @@
 ---
 grafana_folder: "{{ folder }}/grafana"
+influx_user: "DHBW"
+influx_pass: ""
+influx_org: "DHBW"
+influx_bucket: "DHBW"
+influx_admin_token: ""

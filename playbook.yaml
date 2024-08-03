@@ -50,7 +50,7 @@
         reset_connection
 
   roles:
+    - grafana
     - industrial_bridge
     - webUI
-    - grafana
 

@@ -1,8 +1,64 @@
+- name: Create temporary build directory
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: build
+  register: builddir_res
+
+# get the created dir
+- set_fact: 
+    builddir: "{{ builddir_res.path }}"
+
 - name: Create the grafana folder
   ansible.builtin.file:
     path: "{{ grafana_folder }}"
     state: directory
     mode: '0755'
+    
+- name: Upload the env file
+  ansible.builtin.template:
+    src: templates/influx.env.j2
+    dest: "{{ builddir }}/influx.env"
+
+- name: Start the influxdb image for initial setup 
+  community.docker.docker_container:
+    name: influxdb
+    state: started
+    image: influxdb:2
+    volumes:
+      - grafana_influx_data:/var/lib/influxdb2
+      - grafana_influx_config:/etc/influxdb2
+    ports: 8086:8086
+    env_file: "{{ builddir }}/influx.env"
+
+- name: Wait for influxdb to start
+  ansible.builtin.wait_for:
+    port: 8086
+
+- name: Get the grafana token
+  community.docker.docker_container_exec:
+    container: influxdb
+    command: influx auth create --org {{ influx_org }} --read-buckets --json --description grafana
+  register: token_result
+  
+- name: Stop the image 
+  community.docker.docker_container:
+    name: influxdb
+    state: absent
+
+# extract the token
+- set_fact: 
+    grafana_token: "{{ (token_result.stdout | from_json).token }}"
+    
+- name: Create the datasources folder
+  ansible.builtin.file:
+    path: "{{ grafana_folder }}/datasources"
+    state: directory
+    mode: '0755'
+    
+- name: Upload the InfluxDB datasource provisionning
+  ansible.builtin.template:
+    src: templates/influx_datasource.yaml.j2
+    dest: "{{ grafana_folder }}/datasources/influx_datasource.yaml"
 
 - name: Upload the compose file
   ansible.builtin.template:

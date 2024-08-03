@@ -8,6 +8,7 @@ services:
       - grafana
     volumes:
       - "grafana_data:/var/lib/grafana"
+      - "{{ ansible_facts.env['PWD'] }}/{{ grafana_folder }}/datasources:/etc/grafana/provisioning/datasources"
     user: "1000:1000"
     environment:
       - GF_SECURITY_ALLOW_EMBEDDING=true 

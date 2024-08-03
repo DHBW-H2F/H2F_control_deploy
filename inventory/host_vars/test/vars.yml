@@ -1,2 +1,5 @@
 ---
 folder: station_control
+
+influx_pass: DHBW2024
+influx_admin_token: "k7BMJ2e2ZGUDTVhp834E47JBx4eA8uET8ywfRSWXUpbPLZ85UDVGZ99nUksTgY2G"

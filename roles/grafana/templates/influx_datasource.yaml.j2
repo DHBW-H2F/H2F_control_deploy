@@ -1,0 +1,15 @@
+# Configuration file version
+apiVersion: 1
+
+datasources:
+  - name: InfluxDB
+    type: influxdb
+    access: proxy
+    url: http://influxdb:8086
+    basicAuth: false
+    jsonData:
+      httpMode: POST
+      organization: {{ influx_org }}
+      version: Flux
+    secureJsonData:
+      token: {{ grafana_token }}    
