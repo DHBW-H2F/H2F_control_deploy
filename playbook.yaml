@@ -51,4 +51,5 @@
 
   roles:
     - industrial_bridge
+    - webUI
 

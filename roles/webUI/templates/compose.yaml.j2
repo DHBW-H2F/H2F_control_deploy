@@ -1,0 +1,13 @@
+services:
+  webUI:
+    image: webui
+    networks:
+      - webUI
+      - grafana
+    ports:
+      - 8000:8000
+    restart: always
+
+networks:
+  webUI:
+  grafana:

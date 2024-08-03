@@ -1,0 +1,51 @@
+- name: Create temporary build directory
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: build
+  register: builddir_res
+
+# get the created dir
+- set_fact: 
+    builddir: "{{ builddir_res.path }}"
+
+# Use a plaintext deploy key, not great but it's only per-repo and read-only
+- name: Copy over the deploy key
+  ansible.builtin.copy:
+    src: files/config_deploy_key
+    dest: "{{ builddir }}/config_deploy_key"
+    mode: '0600'
+
+- name: Clone the main repo
+  ansible.builtin.git:
+    repo: git@github.com:lkzjdnb/H2F_control.git
+    dest: "{{ builddir }}/webUI"
+    key_file: "{{ builddir }}/config_deploy_key"
+    accept_hostkey: yes
+
+- name: Upload the Dockefile
+  ansible.builtin.template:
+    src: templates/Dockerfile.j2
+    dest: "{{ builddir }}/Dockerfile"
+
+- name: Build the docker image (this can take some time >15min)
+  community.docker.docker_image:
+    name: webui
+    build:
+      path: "{{ builddir }}"
+    source: build
+
+- name: Create the webUI folder
+  ansible.builtin.file:
+    path: "{{ webui_folder }}"
+    state: directory
+    mode: '0755'
+
+- name: Upload the compose file
+  ansible.builtin.template:
+    src: templates/compose.yaml.j2
+    dest: "{{ webui_folder }}/docker-compose.yaml"
+
+- name: Start the compose file
+  community.docker.docker_compose:
+    project_src: "{{ webui_folder }}"
+  register: output

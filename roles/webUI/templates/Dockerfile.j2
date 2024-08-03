@@ -1,0 +1,11 @@
+FROM rust:1.80-alpine3.20 as builder
+RUN apk add --no-cache musl-dev
+COPY webUI webUI
+WORKDIR webUI
+RUN cargo install --path .
+
+FROM alpine:3.20
+COPY --from=builder /usr/local/cargo/bin/h2f_control /usr/local/bin/webUI
+COPY webUI webUI
+WORKDIR webUI
+CMD ["webUI"]
