@@ -18,6 +18,7 @@ services:
     restart: always
 
   influxdb:
+    container_name: influxdb
     image: influxdb:2
     ports:
       - 8086:8086

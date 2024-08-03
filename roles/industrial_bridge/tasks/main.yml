@@ -28,6 +28,28 @@
     key_file: "{{ builddir }}/config_deploy_key"
     accept_hostkey: yes
 
+- name: Get an influxDB token
+  community.docker.docker_container_exec:
+    container: influxdb
+    command: influx auth create --org {{ influx_org }} --write-buckets --json --description bridge
+  register: token_result
+  
+# extract the token
+- set_fact: 
+    influxdb_token: "{{ (token_result.stdout | from_json).token }}"
+    
+- name: fetch config template from remote host
+  fetch:
+    src: "{{ builddir }}/config/config.yaml.j2"
+    dest: /tmp/config.yaml.j2
+    fail_on_missing : yes
+    flat: yes
+
+- name: reupload the templated config
+  template:
+    src: /tmp/config.yaml.j2
+    dest: "{{ builddir }}/config/config.yaml"
+
 - name: Upload the Dockefile
   ansible.builtin.template:
     src: templates/Dockerfile.j2
