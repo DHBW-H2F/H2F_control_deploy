@@ -1,0 +1,2 @@
+---
+grafana_folder: "{{ folder }}/grafana"
