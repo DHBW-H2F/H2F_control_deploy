@@ -49,6 +49,7 @@
     volumes:
       - grafana_influx_data:/var/lib/influxdb2
       - grafana_influx_config:/etc/influxdb2
+      - "{{ builddir }}:/home/influxdb"
     ports: 8086:8086
     env_file: "{{ builddir }}/influx.env"
 
@@ -62,6 +63,19 @@
     container: influxdb
     command: influx auth create --org {{ influx_org }} --read-buckets --json --description grafana
   register: token_result
+  
+- name: Copy over previous data
+  ansible.builtin.copy:
+    src: ../../files/{{ item }}
+    dest: "{{ builddir }}/{{ item }}"
+    mode: '0600'
+  loop: "{{ influx_migrate_file }}"
+  
+- name: Import it into grafana
+  community.docker.docker_container_exec:
+    container: influxdb
+    command: "influx write --bucket {{ influx_bucket }} --file /home/influxdb/{{ item }}"
+  loop: "{{ influx_migrate_file }}"
   
 - name: Stop the image 
   community.docker.docker_container:

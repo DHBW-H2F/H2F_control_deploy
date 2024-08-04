@@ -14,6 +14,19 @@ Add the remote to the `inventory/hosts` file :
 
 Create configuration for the remote in the file `inventory/host_vars/<remote_name>/vars.yml` setting variables (see the example for help).
 
+## Migrating from previous installation
+To import data from an other influxDB installation : 
+- Export the data as line-protocol from the previous server ([see wiki](https://docs.influxdata.com/influxdb/v2/write-data/migrate-data/migrate-oss/)) : 
+```
+influxd inspect export-lp \
+  --bucket-id 12ab34cd56ef \
+  --engine-path ~/.influxdbv2/engine \
+  --output-path path/to/export.lp
+  --compress
+```
+- Add the generated file to `./files`
+- Add the file to the `influx_migrate_file` variable in `host_vars/<hostname>/vars.yml`
+
 ## Running
 Run the playbook, this will install and setup all service. And can take a few minutes (30 mins) to finish : 
 
