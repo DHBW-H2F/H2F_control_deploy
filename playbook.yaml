@@ -51,6 +51,6 @@
 
   roles:
     - grafana
-    - industrial_bridge
     - webUI
+    - industrial_bridge
 
