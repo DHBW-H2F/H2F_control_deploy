@@ -5,6 +5,7 @@ datasources:
   - name: InfluxDB
     type: influxdb
     access: proxy
+    uid: {{ influxdb_datasource_uid }}
     url: http://influxdb:8086
     basicAuth: false
     jsonData:

@@ -13,6 +13,28 @@
     path: "{{ grafana_folder }}"
     state: directory
     mode: '0755'
+
+- name: Create the dashboard provisionning config
+  ansible.builtin.file:
+    path: "{{ grafana_folder }}/dashboards_provisioning_config"
+    state: directory
+    mode: '0755'
+    
+- name: Upload the provisioning config
+  ansible.builtin.template:
+    src: templates/dashboard_file_provisioning.yaml.j2
+    dest: "{{ grafana_folder }}/dashboards_provisioning_config/File.yaml"
+    
+- name: Create the dashboard provisionning folder
+  ansible.builtin.file:
+    path: "{{ grafana_folder }}/dashboards"
+    state: directory
+    mode: '0755'
+    
+- name: Upload the webui dashboard
+  ansible.builtin.template:
+    src: templates/webui_dashboard.json.j2
+    dest: "{{ grafana_folder }}/dashboards/webui_dashboard.json"
     
 - name: Upload the env file
   ansible.builtin.template:

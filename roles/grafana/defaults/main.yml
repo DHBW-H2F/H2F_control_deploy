@@ -5,3 +5,9 @@ influx_pass: ""
 influx_org: "DHBW"
 influx_bucket: "DHBW"
 influx_admin_token: ""
+
+webui_dashboard_uid: "webuidashboard"
+webui_dashboard_name: "WebUI"
+webui_dashboard_id: 1
+
+influxdb_datasource_uid: "influxdbsource"
