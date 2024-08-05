@@ -19,6 +19,21 @@
       ansible.builtin.package:
         name: python3-requests
         state: present
+    - name: Ensure that cage is installed
+      become: true
+      ansible.builtin.package:
+        name: cage
+        state: present
+    - name: Ensure that firefox is installed
+      become: true
+      ansible.builtin.package:
+        name: firefox-esr
+        state: present
+    - name: Ensure that xwayland is installed
+      become: true
+      ansible.builtin.package:
+        name: xwayland
+        state: present
     - name: Ensure that docker library is installed
       become: true
       ansible.builtin.package:
@@ -39,6 +54,7 @@
       ansible.builtin.service:
         name: docker
         state: started
+        enabled: true
     - name: Add the user to the docker group
       become: true
       user:
@@ -48,6 +64,26 @@
     - name: Reset ssh connection to reload groups
       ansible.builtin.meta:
         reset_connection
+    - name: Upload the kiosk service
+      become: true
+      ansible.builtin.template:
+        src: templates/firefox-kiosk.service.j2
+        dest: /etc/systemd/system/firefox-kiosk.service
+    - name: Upload the cage pam config
+      become: true
+      ansible.builtin.template:
+        src: templates/cage.j2
+        dest: /etc/pam.d/cage
+    - name: Reread configs (2.4 and above)
+      become: true
+      ansible.builtin.systemd_service:
+        daemon_reload: true
+    - name: Enable and start the kiosk
+      become: true
+      ansible.builtin.service:
+        name: firefox-kiosk
+        state: started
+        enabled: true
 
   roles:
     - grafana
