@@ -1,2 +1,7 @@
 ---
 folder: station_control
+
+influx_pass: DHBW2024
+
+influx_migrate_file:
+  - export.lp

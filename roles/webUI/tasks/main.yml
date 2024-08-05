@@ -20,6 +20,7 @@
     repo: git@github.com:lkzjdnb/H2F_control.git
     dest: "{{ builddir }}/webUI"
     key_file: "{{ builddir }}/config_deploy_key"
+    version: local
     accept_hostkey: yes
 
 - name: Upload the Dockefile
