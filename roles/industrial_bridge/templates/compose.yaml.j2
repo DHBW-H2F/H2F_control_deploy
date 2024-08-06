@@ -3,7 +3,14 @@ services:
     image: industrial_bridge
     networks:
       - industrial_bridge
+      - influxdb
     restart: always
+    devices:
+      - /dev/modbus_rtu
 
 networks:
   industrial_bridge:
+    name: industrial_bridge
+  influxdb:
+    name: influxdb
+    external: true
