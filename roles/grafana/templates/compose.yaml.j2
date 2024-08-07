@@ -2,8 +2,6 @@ services:
   grafana:
     container_name: grafana
     image: grafana/grafana
-    ports:
-      - "3000:3000"
     networks:
       - influxdb
       - grafana
@@ -19,18 +17,22 @@ services:
       - GF_AUTH_ANONYMOUS_ORG_NAME=Main Org.
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
     restart: always
+    labels:
+      - traefik.http.routers.grafana.rule=HostRegexp(`^grafana\..+$$`)
+      - traefik.http.services.grafana.loadbalancer.server.port=3000
 
   influxdb:
     container_name: influxdb
     image: influxdb:2
-    ports:
-      - 8086:8086
     networks:
       - influxdb
     volumes:
       - influx_data:/var/lib/influxdb2
       - influx_config:/etc/influxdb2
     restart: always
+    labels:
+      - traefik.http.routers.influx.rule=HostRegexp(`^influx\..+$$`)
+      - traefik.http.services.influx.loadbalancer.server.port=8086
 
 networks:
   influxdb:

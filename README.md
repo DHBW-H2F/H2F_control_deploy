@@ -33,9 +33,9 @@ Run the playbook, this will install and setup all service. And can take a few mi
 `ansible-playbook -v -i inventory/hosts playbook.yaml`
 
 If everything went correctly you should now be able to access the services : 
-- Grafana at http://<remote_url>:3000
-- InfluxDB at http://<remote_url>:8086
-- The webUI at http://<remote_url>:8000
+- Grafana at http://grafana.<hostname>
+- InfluxDB at http://influx.<hostname>
+- The webUI at http://webui.<hostname>
 
 # Maintenance
 For compatibility this playbook use docker-compose as a service manager.

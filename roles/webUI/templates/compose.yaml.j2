@@ -3,9 +3,11 @@ services:
     image: webui
     networks:
       - webUI
-    ports:
-      - 8000:8000
     restart: always
+    labels:
+      - traefik.http.routers.webui.rule=HostRegexp(`^webui\..+$$`)
+      - traefik.http.services.webui.loadbalancer.server.port=8000
 
 networks:
   webUI:
+    name: webUI

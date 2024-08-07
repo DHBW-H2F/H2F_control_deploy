@@ -88,5 +88,6 @@
   roles:
     - grafana
     - webUI
+    - traefik
     - industrial_bridge
 

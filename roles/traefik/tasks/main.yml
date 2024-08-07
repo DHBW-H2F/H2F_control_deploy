@@ -1,0 +1,30 @@
+- name: Create temporary build directory
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: build
+  register: builddir_res
+
+# get the created dir
+- set_fact: 
+    builddir: "{{ builddir_res.path }}"
+
+- name: Create the traefik folder
+  ansible.builtin.file:
+    path: "{{ traefik_folder }}"
+    state: directory
+    mode: '0755'
+    
+- name: Upload the traefik config
+  ansible.builtin.template:
+    src: templates/traefik.yml.j2
+    dest: "{{ traefik_folder }}/traefik.yml"
+
+- name: Upload the compose file
+  ansible.builtin.template:
+    src: templates/compose.yaml.j2
+    dest: "{{ traefik_folder }}/docker-compose.yaml"
+
+- name: Start the compose file
+  community.docker.docker_compose:
+    project_src: "{{ traefik_folder }}"
+  register: output
