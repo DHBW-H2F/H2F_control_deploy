@@ -30,7 +30,7 @@ User={{ ansible_user_id }}
 UtmpIdentifier=%I
 UtmpMode=user
 # A virtual terminal is needed.
-TTYPath=/dev/%I
+TTYPath=/dev/tty7
 TTYReset=yes
 TTYVHangup=yes
 TTYVTDisallocate=yes
@@ -43,4 +43,4 @@ PAMName=cage
 [Install]
 WantedBy=graphical.target
 Alias=display-manager.service
-DefaultInstance=tty1
+# DefaultInstance=tty1
