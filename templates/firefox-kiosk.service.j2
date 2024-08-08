@@ -22,7 +22,7 @@ After=getty@%i.service
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/cage -- firefox --kiosk --private-window "http://localhost:8000"
+ExecStart=/usr/bin/cage -- firefox --kiosk --private-window "http://webui.h2f/"
 Restart=always
 User={{ ansible_user_id }}
 # Log this user with utmp, letting it show up with commands 'w' and
