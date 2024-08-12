@@ -1,5 +1,6 @@
 ---
 folder: station_control
+domain: H2F
 
 influx_pass: DHBW2024
 

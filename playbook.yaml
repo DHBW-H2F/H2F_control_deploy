@@ -65,6 +65,16 @@
       ansible.builtin.meta:
         reset_connection
 
+    - name: Add all subdomains to /etc/hosts
+      become: true
+      ansible.builtin.lineinfile:
+        path: /etc/hosts
+        line: "127.0.1.1 {{ item }}.{{ domain }}"
+      loop: 
+        - webui
+        - grafana
+        - influx
+
   roles:
     - grafana
     - webUI
