@@ -84,6 +84,25 @@
         - rebuild-all
         - rebuild-webui
       
+    - name: Cleanup bridge token
+      include_role:
+        name: industrial_bridge
+        tasks_from: clean_token.yml
+      tags:
+        - clean_tokens
+        - fullclean
+      ignore_errors: true
+
+    - name: Cleanup the bridge
+      include_role:
+        name: industrial_bridge
+        tasks_from: clean_image.yml
+      tags:
+        - fullclean
+        - rebuild-all
+        - rebuild-bridge
+      ignore_errors: true
+
     - name: Cleanup grafana token
       include_role:
         name: grafana
@@ -92,7 +111,7 @@
         - clean_tokens
         - fullclean
       ignore_errors: true
-
+      
     - name: Cleanup grafana volumes
       include_role:
         name: grafana
@@ -109,6 +128,7 @@
         - fullclean
         - rebuild-all
         - rebuild-webui
+      ignore_errors: true
 
     - name: Install grafana
       include_role:
@@ -125,7 +145,7 @@
     - name: Install the kiosk
       include_role:
         name: kiosk
-
-  roles:
-    - industrial_bridge
-
+        
+    - name: Install the bridge
+      include_role:
+        name: industrial_bridge

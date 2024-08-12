@@ -1,0 +1,16 @@
+- name: Get the influx token(s)
+  community.docker.docker_container_exec:
+    container: influxdb
+    command: influx auth find --json --org {{ influx_org }}
+  register: token_result
+  
+# extract the token
+- set_fact: 
+    tokens: "{{ (token_result.stdout | from_json) }}"
+
+- name: Delete every "bridge" token
+  community.docker.docker_container_exec:
+    container: influxdb
+    command: influx auth delete -i {{ item.id }}
+  loop: "{{ tokens }}"
+  when: item.description == "bridge"
