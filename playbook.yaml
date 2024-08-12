@@ -75,12 +75,22 @@
         - grafana
         - influx
 
+    - name: Stop Treafik to free networks
+      include_role:
+        name: traefik
+        tasks_from: stop.yml
+      tags:
+        - fullclean
+        - rebuild-all
+        - rebuild-webui
+      
     - name: Cleanup grafana token
       include_role:
         name: grafana
         tasks_from: clean_tokens.yml
       tags:
         - clean_tokens
+        - fullclean
       ignore_errors: true
 
     - name: Cleanup grafana volumes
@@ -90,14 +100,32 @@
       tags:
         - fullclean
       ignore_errors: true
+      
+    - name: Cleanup the web GUI
+      include_role:
+        name: webUI
+        tasks_from: clean_image.yml
+      tags:
+        - fullclean
+        - rebuild-all
+        - rebuild-webui
 
     - name: Install grafana
       include_role:
         name: grafana
+        
+    - name: Install the web GUI
+      include_role:
+        name: webUI
+        
+    - name: Install traefik
+      include_role:
+        name: traefik
+        
+    - name: Install the kiosk
+      include_role:
+        name: kiosk
 
   roles:
-    - webUI
-    - traefik
-    - kiosk
     - industrial_bridge
 
