@@ -75,8 +75,27 @@
         - grafana
         - influx
 
+    - name: Cleanup grafana token
+      include_role:
+        name: grafana
+        tasks_from: clean_tokens.yml
+      tags:
+        - clean_tokens
+      ignore_errors: true
+
+    - name: Cleanup grafana volumes
+      include_role:
+        name: grafana
+        tasks_from: clean_volumes.yml
+      tags:
+        - fullclean
+      ignore_errors: true
+
+    - name: Install grafana
+      include_role:
+        name: grafana
+
   roles:
-    - grafana
     - webUI
     - traefik
     - kiosk

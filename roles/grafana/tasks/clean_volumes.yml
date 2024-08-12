@@ -1,0 +1,14 @@
+- name: Stop the compose file
+  community.docker.docker_compose:
+    project_src: "{{ grafana_folder }}"
+    state: absent
+  register: output
+  
+- name: Delete the grafana and influxdb volumes
+  community.docker.docker_volume:
+    name: "{{ item }}"
+    state: absent
+  loop:
+    - grafana_grafana_data
+    - grafana_influx_config
+    - grafana_influx_data

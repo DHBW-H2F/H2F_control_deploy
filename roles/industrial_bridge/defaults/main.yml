@@ -1,2 +1,4 @@
 ---
 bridge_folder: "{{ folder }}/bridge"
+
+influx_org: "DHBW"
