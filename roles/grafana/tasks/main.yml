@@ -35,6 +35,12 @@
   ansible.builtin.template:
     src: templates/webui_dashboard.json.j2
     dest: "{{ grafana_folder }}/dashboards/webui_dashboard.json"
+
+- name: Upload all dashboards
+  ansible.builtin.template:
+    src: templates/dashboards/influx/{{ item | basename }}
+    dest: "{{ grafana_folder }}/dashboards/{{ item | basename | splitext | first }}"
+  loop: "{{ query('fileglob', 'templates/dashboards/influx/*') }}"
     
 - name: Upload the env file
   ansible.builtin.template:

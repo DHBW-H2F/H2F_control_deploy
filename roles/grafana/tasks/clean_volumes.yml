@@ -12,3 +12,8 @@
     - grafana_grafana_data
     - grafana_influx_config
     - grafana_influx_data
+
+- name: Delete provisionning folder
+  ansible.builtin.file:
+    path: "{{ grafana_folder}}/dashboards"
+    state: absent
