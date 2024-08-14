@@ -80,15 +80,18 @@
         name: traefik
         tasks_from: stop.yml
       tags:
+        - never
         - fullclean
         - rebuild-all
         - rebuild-webui
+        - clean_grafana
       
     - name: Cleanup bridge token
       include_role:
         name: industrial_bridge
         tasks_from: clean_token.yml
       tags:
+        - never
         - clean_tokens
         - fullclean
       ignore_errors: true
@@ -98,6 +101,7 @@
         name: industrial_bridge
         tasks_from: clean_image.yml
       tags:
+        - never
         - fullclean
         - rebuild-all
         - rebuild-bridge
@@ -108,6 +112,7 @@
         name: grafana
         tasks_from: clean_tokens.yml
       tags:
+        - never
         - clean_tokens
         - fullclean
       ignore_errors: true
@@ -117,7 +122,9 @@
         name: grafana
         tasks_from: clean_volumes.yml
       tags:
+        - never
         - fullclean
+        - clean_grafana
       ignore_errors: true
       
     - name: Cleanup the web GUI
@@ -125,6 +132,7 @@
         name: webUI
         tasks_from: clean_image.yml
       tags:
+        - never
         - fullclean
         - rebuild-all
         - rebuild-webui
