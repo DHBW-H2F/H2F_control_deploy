@@ -23,8 +23,3 @@
   ansible.builtin.template:
     src: templates/compose.yaml.j2
     dest: "{{ traefik_folder }}/docker-compose.yaml"
-
-- name: Start the compose file
-  community.docker.docker_compose:
-    project_src: "{{ traefik_folder }}"
-  register: output

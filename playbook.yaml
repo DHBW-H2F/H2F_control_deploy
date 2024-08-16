@@ -2,158 +2,45 @@
 - name: Install H2F station software
   hosts: station_servers
 
-  pre_tasks:
-    - name: Create the main folder
-      ansible.builtin.file:
-        path: "{{ folder }}"
-        state: directory
-        mode: '0755'
+  tasks:
+    - name: Setup the environment
+      import_tasks: setup-env.yml
+      tags:
+        - install-all
+        - setup-env
         
-    - name: Ensure that git is installed
-      become: true
-      ansible.builtin.package:
-        name: git
-        state: present
-    - name: Ensure that requests is installed
-      become: true
-      ansible.builtin.package:
-        name: python3-requests
-        state: present
-    - name: Ensure that cage is installed
-      become: true
-      ansible.builtin.package:
-        name: cage
-        state: present
-    - name: Ensure that firefox is installed
-      become: true
-      ansible.builtin.package:
-        name: firefox-esr
-        state: present
-    - name: Ensure that xwayland is installed
-      become: true
-      ansible.builtin.package:
-        name: xwayland
-        state: present
-    - name: Ensure that docker library is installed
-      become: true
-      ansible.builtin.package:
-        name: python3-docker
-        state: present
-    - name: Ensure that docker is installed
-      become: true
-      ansible.builtin.package:
-        name: docker
-        state: present
-    - name: Ensure that docker-compose is installed
-      become: true
-      ansible.builtin.package:
-        name: docker-compose
-        state: present
-    - name: Ensure that docker is started
-      become: true
-      ansible.builtin.service:
-        name: docker
-        state: started
-        enabled: true
-    - name: Add the user to the docker group
-      become: true
-      user:
-        name: "{{ ansible_user }}"
-        groups: "docker"
-        append: yes
-    - name: Reset ssh connection to reload groups
-      ansible.builtin.meta:
-        reset_connection
+    - name: Stop previously installed services
+      import_tasks: stop.yml
+      tags:
+        - fullclean
+        - clean-grafana
+        - clean-webui
+        - clean-bridge
 
-    - name: Add all subdomains to /etc/hosts
-      become: true
-      ansible.builtin.lineinfile:
-        path: /etc/hosts
-        line: "127.0.1.1 {{ item }}.{{ domain }}"
-      loop: 
-        - webui
-        - grafana
-        - influx
+    - name: Clean previous install
+      import_tasks: clean.yml
+      tags:
+        - fullclean
+        - clean-grafana
+        - clean-webui
+        - clean-bridge
 
-    - name: Stop Treafik to free networks
-      include_role:
-        name: traefik
-        tasks_from: stop.yml
+    - name: Install
+      import_tasks: install.yml
       tags:
-        - never
-        - fullclean
-        - rebuild-all
-        - rebuild-webui
-        - clean_grafana
-      
-    - name: Cleanup bridge token
-      include_role:
-        name: industrial_bridge
-        tasks_from: clean_token.yml
-      tags:
-        - never
-        - clean_tokens
-        - fullclean
-      ignore_errors: true
+        - install-all
+        - install-grafana
+        - install-webui
+        - install-bridge
+        - install-traefik
+        - install-kiosk
 
-    - name: Cleanup the bridge
-      include_role:
-        name: industrial_bridge
-        tasks_from: clean_image.yml
+    - name: Start
+      import_tasks: start.yml
       tags:
-        - never
-        - fullclean
-        - rebuild-all
-        - rebuild-bridge
-      ignore_errors: true
-
-    - name: Cleanup grafana token
-      include_role:
-        name: grafana
-        tasks_from: clean_tokens.yml
-      tags:
-        - never
-        - clean_tokens
-        - fullclean
-      ignore_errors: true
-      
-    - name: Cleanup grafana volumes
-      include_role:
-        name: grafana
-        tasks_from: clean_volumes.yml
-      tags:
-        - never
-        - fullclean
-        - clean_grafana
-      ignore_errors: true
-      
-    - name: Cleanup the web GUI
-      include_role:
-        name: webUI
-        tasks_from: clean_image.yml
-      tags:
-        - never
-        - fullclean
-        - rebuild-all
-        - rebuild-webui
-      ignore_errors: true
-
-    - name: Install grafana
-      include_role:
-        name: grafana
-        
-    - name: Install the web GUI
-      include_role:
-        name: webUI
-        
-    - name: Install traefik
-      include_role:
-        name: traefik
-        
-    - name: Install the kiosk
-      include_role:
-        name: kiosk
-        
-    - name: Install the bridge
-      include_role:
-        name: industrial_bridge
+        - install-all
+        - install-grafana
+        - install-webui
+        - install-bridge
+        - install-traefik
+        - install-kiosk

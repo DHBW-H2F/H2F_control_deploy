@@ -1,0 +1,71 @@
+- name: Create the main folder
+  ansible.builtin.file:
+    path: "{{ folder }}"
+    state: directory
+    mode: '0755'
+
+- name: Ensure that git is installed
+  become: true
+  ansible.builtin.package:
+    name: git
+    state: present
+- name: Ensure that requests is installed
+  become: true
+  ansible.builtin.package:
+    name: python3-requests
+    state: present
+- name: Ensure that cage is installed
+  become: true
+  ansible.builtin.package:
+    name: cage
+    state: present
+- name: Ensure that firefox is installed
+  become: true
+  ansible.builtin.package:
+    name: firefox-esr
+    state: present
+- name: Ensure that xwayland is installed
+  become: true
+  ansible.builtin.package:
+    name: xwayland
+    state: present
+- name: Ensure that docker library is installed
+  become: true
+  ansible.builtin.package:
+    name: python3-docker
+    state: present
+- name: Ensure that docker is installed
+  become: true
+  ansible.builtin.package:
+    name: docker
+    state: present
+- name: Ensure that docker-compose is installed
+  become: true
+  ansible.builtin.package:
+    name: docker-compose
+    state: present
+- name: Ensure that docker is started
+  become: true
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true
+- name: Add the user to the docker group
+  become: true
+  user:
+    name: "{{ ansible_user }}"
+    groups: "docker"
+    append: yes
+- name: Reset ssh connection to reload groups
+  ansible.builtin.meta:
+    reset_connection
+
+- name: Add all subdomains to /etc/hosts
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    line: "127.0.1.1 {{ item }}.{{ domain }}"
+  loop: 
+    - webui
+    - grafana
+    - influx

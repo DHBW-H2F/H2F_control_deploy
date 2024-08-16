@@ -1,0 +1,44 @@
+- block:
+    - name: Stop grafana
+      include_role:
+        name: grafana
+        tasks_from: stop.yml
+  tags:
+    - fullclean
+    - clean-grafana
+    
+- block:
+    - name: Stop the web GUI
+      include_role:
+        name: webUI
+        tasks_from: stop.yml
+  tags:
+    - fullclean
+    - clean-webui
+    
+- block:
+    - name: Stop traefik
+      include_role:
+        name: traefik
+        tasks_from: stop.yml
+  tags:
+    - fullclean
+    - clean-grafana
+    - clean-webui
+    
+- block:
+    - name: Stop the kiosk
+      include_role:
+        name: kiosk
+        tasks_from: stop.yml
+  tags:
+    - fullclean
+    
+- block:
+    - name: Stop the bridge
+      include_role:
+        name: industrial_bridge
+        tasks_from: stop.yml
+  tags:
+    - fullclean
+    - clean-bridge

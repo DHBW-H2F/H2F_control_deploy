@@ -1,0 +1,4 @@
+- name: Start the compose file
+  community.docker.docker_compose:
+    project_src: "{{ grafana_folder }}"
+  register: output

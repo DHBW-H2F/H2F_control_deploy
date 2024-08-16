@@ -45,8 +45,3 @@
   ansible.builtin.template:
     src: templates/compose.yaml.j2
     dest: "{{ webui_folder }}/docker-compose.yaml"
-
-- name: Start the compose file
-  community.docker.docker_compose:
-    project_src: "{{ webui_folder }}"
-  register: output

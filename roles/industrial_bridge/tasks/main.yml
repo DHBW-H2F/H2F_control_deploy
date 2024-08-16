@@ -28,11 +28,31 @@
     key_file: "{{ builddir }}/config_deploy_key"
     accept_hostkey: yes
 
+- name: Start the influxdb image for initial setup 
+  community.docker.docker_container:
+    name: influxdb
+    state: started
+    image: influxdb:2
+    volumes:
+      - grafana_influx_data:/var/lib/influxdb2
+      - grafana_influx_config:/etc/influxdb2
+    ports: 8086:8086
+
+- name: Wait for influxdb to start
+  ansible.builtin.wait_for:
+    port: 8086
+    delay: 5
+
 - name: Get an influxDB token
   community.docker.docker_container_exec:
     container: influxdb
     command: influx auth create --org {{ influx_org }} --write-buckets --json --description bridge
   register: token_result
+
+- name: Stop influxdb
+  community.docker.docker_container:
+    name: influxdb
+    state: absent
   
 # extract the token
 - set_fact: 
@@ -72,8 +92,3 @@
   ansible.builtin.template:
     src: templates/compose.yaml.j2
     dest: "{{ bridge_folder }}/docker-compose.yaml"
-
-- name: Start the compose file
-  community.docker.docker_compose:
-    project_src: "{{ bridge_folder }}"
-  register: output

@@ -1,9 +1,3 @@
-- name: Stop the compose file
-  community.docker.docker_compose:
-    project_src: "{{ webui_folder }}"
-    state: absent
-  register: output
-
 - name: Remove image
   community.docker.docker_image:
     state: absent

@@ -3,10 +3,11 @@
     container: influxdb
     command: influx auth find --json --org {{ influx_org }}
   register: token_result
+  ignore_errors: true
   
-# extract the token
-- set_fact: 
-    tokens: "{{ (token_result.stdout | from_json) }}"
+- name: Extract the token
+  set_fact: 
+    tokens: "{{ (token_result.stdout | default(\"[]\") | from_json) }}"
 
 - name: Delete every "bridge" token
   community.docker.docker_container_exec:

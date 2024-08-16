@@ -1,0 +1,39 @@
+- block:
+  - name: Install grafana
+    include_role:
+      name: grafana
+  tags:
+    - install-all
+    - install-grafana
+    
+- block:
+  - name: Install the web GUI
+    include_role:
+      name: webUI
+  tags:
+    - install-all
+    - install-webui
+    
+- block:
+  - name: Install traefik
+    include_role:
+      name: traefik
+  tags:
+    - install-all
+    - install-traefik
+    
+- block:
+  - name: Install the kiosk
+    include_role:
+      name: kiosk
+  tags:
+    - install-all
+    - install-kiosk
+    
+- block:
+  - name: Install the bridge
+    include_role:
+      name: industrial_bridge
+  tags:
+    - install-all
+    - install-bridge

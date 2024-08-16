@@ -1,0 +1,5 @@
+- name: Stop the kiosk
+  become: true
+  ansible.builtin.service:
+    name: firefox-kiosk
+    state: stopped
