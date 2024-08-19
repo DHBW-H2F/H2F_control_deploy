@@ -1,10 +1,20 @@
 - block:
   - name: Install grafana
+    import_role:
+      name: grafana
+    tags:
+      - install-all
+      - install-grafana
+    
+- block:
+  - name: Upload dashboards
     include_role:
       name: grafana
+      tasks_from: update_dashboards.yml
   tags:
     - install-all
     - install-grafana
+    - import-dashboards
     
 - block:
   - name: Install the web GUI

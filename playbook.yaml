@@ -4,13 +4,13 @@
 
   tasks:
     - name: Setup the environment
-      import_tasks: setup-env.yml
+      include_tasks: setup-env.yml
       tags:
         - install-all
         - setup-env
         
     - name: Stop previously installed services
-      import_tasks: stop.yml
+      include_tasks: stop.yml
       tags:
         - fullclean
         - clean-grafana
@@ -18,7 +18,7 @@
         - clean-bridge
 
     - name: Clean previous install
-      import_tasks: clean.yml
+      include_tasks: clean.yml
       tags:
         - fullclean
         - clean-grafana
@@ -26,9 +26,10 @@
         - clean-bridge
 
     - name: Install
-      import_tasks: install.yml
+      include_tasks: install.yml
       tags:
         - install-all
+        - import-dashboards
         - install-grafana
         - install-webui
         - install-bridge
@@ -36,7 +37,7 @@
         - install-kiosk
 
     - name: Start
-      import_tasks: start.yml
+      include_tasks: start.yml
       tags:
         - install-all
         - install-grafana

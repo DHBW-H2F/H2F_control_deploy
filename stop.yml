@@ -1,4 +1,14 @@
 - block:
+    - name: Stop traefik
+      include_role:
+        name: traefik
+        tasks_from: stop.yml
+  tags:
+    - fullclean
+    - clean-grafana
+    - clean-webui
+    
+- block:
     - name: Stop grafana
       include_role:
         name: grafana
@@ -14,16 +24,6 @@
         tasks_from: stop.yml
   tags:
     - fullclean
-    - clean-webui
-    
-- block:
-    - name: Stop traefik
-      include_role:
-        name: traefik
-        tasks_from: stop.yml
-  tags:
-    - fullclean
-    - clean-grafana
     - clean-webui
     
 - block:
