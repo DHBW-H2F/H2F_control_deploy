@@ -8,20 +8,11 @@
 - set_fact: 
     builddir: "{{ builddir_res.path }}"
 
-# Use a plaintext deploy key, not great but it's only per-repo and read-only
-- name: Copy over the deploy key
-  ansible.builtin.copy:
-    src: files/config_deploy_key
-    dest: "{{ builddir }}/config_deploy_key"
-    mode: '0600'
-
 - name: Clone the main repo
   ansible.builtin.git:
-    repo: git@github.com:lkzjdnb/H2F_control.git
+    repo: https://github.com/lkzjdnb/H2F_control.git
     dest: "{{ builddir }}/webUI"
-    key_file: "{{ builddir }}/config_deploy_key"
     version: etn
-    accept_hostkey: yes
 
 - name: Upload the Dockefile
   ansible.builtin.template:

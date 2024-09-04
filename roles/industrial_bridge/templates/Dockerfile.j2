@@ -7,4 +7,11 @@ RUN cargo install --path .
 FROM alpine:3.20
 COPY --from=builder /usr/local/cargo/bin/industrial_bridge /usr/local/bin/industrial_bridge
 COPY config .
+
+{% if bridge_test_environment %}
+COPY test_entrypoint.sh .
+RUN apk add --no-cache iptables
+CMD ["sh", "-c", "./test_entrypoint.sh"]
+{% else %}
 CMD ["industrial_bridge", "-c", "config.yaml"]
+{% endif %}

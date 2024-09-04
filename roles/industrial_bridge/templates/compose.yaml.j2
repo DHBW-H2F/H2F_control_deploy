@@ -7,6 +7,14 @@ services:
     restart: always
     devices:
       - /dev/modbus_rtu
+{% if bridge_test_environment %}
+    volumes:
+      - /dev:/dev
+    environment:
+      - RUST_LOG=debug
+    cap_add:
+      - NET_ADMIN
+{% endif %}
 
 networks:
   industrial_bridge:

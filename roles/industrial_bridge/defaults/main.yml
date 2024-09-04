@@ -2,3 +2,5 @@
 bridge_folder: "{{ folder }}/bridge"
 
 influx_org: "DHBW"
+
+bridge_test_environment: false

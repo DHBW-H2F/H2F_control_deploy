@@ -8,25 +8,23 @@
 - set_fact: 
     builddir: "{{ builddir_res.path }}"
 
-# Use a plaintext deploy key, not great but it's only per-repo and read-only
-- name: Copy over the deploy key
-  ansible.builtin.copy:
-    src: files/config_deploy_key
-    dest: "{{ builddir }}/config_deploy_key"
-    mode: '0600'
-
 - name: Clone the main repo
   ansible.builtin.git:
     repo: https://github.com/lkzjdnb/industrial_bridge.git
     dest: "{{ builddir }}/industrial_bridge"
-
+    
+- name: Upload the test entrypoint if we're in the test environment
+  template:
+    src: templates/set_iptable.sh.j2
+    dest: "{{ builddir }}/test_entrypoint.sh"
+    mode: '0774'
+  when:
+    bridge_test_environment
 
 - name: Clone the config repo
   ansible.builtin.git:
-    repo: git@github.com:lkzjdnb/bridge_config.git
+    repo: https://github.com/lkzjdnb/bridge_config.git
     dest: "{{ builddir }}/config"
-    key_file: "{{ builddir }}/config_deploy_key"
-    accept_hostkey: yes
 
 - name: Start the influxdb image for initial setup 
   community.docker.docker_container:
