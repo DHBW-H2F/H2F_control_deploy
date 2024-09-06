@@ -6,6 +6,7 @@
   tags:
     - install-all
     - install-grafana
+    - clean-bridge
     
 - block:
     - name: Start the web GUI
