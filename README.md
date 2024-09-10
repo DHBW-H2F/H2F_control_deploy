@@ -1,11 +1,14 @@
+# Ansible Playbook for the deployement of the H2F control software
+This repository contains a playbook used to install the [H2F control interface](https://github.com/lkzjdnb/H2F_control) and all needed services.
 
-
-# Usage
 ## Remote preparation 
 > This playbook as been tested on debian 12 but should work on any derivatives without too much modifications.
 
 You should have access to the server via ssh, for security and convenience it is recommanded to setup key-based authentification.
 > Your user should have superuser access via sudo (for doas add `--become-method=doas` when invoking ansible)
+
+Network setup with outside remotes and local devices (WiFi authentification, IP assignement, USB authorisation, ...) has to be done according to your installation prior to running this playbook (See [network-setup.md](/docs/network-setup.md) for more information).
+> :warning: Make sure to reflect your installation in the configuration ([bridge_config](https://github.com/lkzjdnb/bridge_config)).
 
 ## Setup
 Add the remote to the `inventory/hosts` file : 
@@ -27,12 +30,14 @@ influxd inspect export-lp \
 - Add the generated file to `./files`
 - Add the file to the `influx_migrate_file` variable in `host_vars/<hostname>/vars.yml`
 
+> Make sure to remove it from the configuration after this initial install otherwise each subsequent update will reupload the data
+
 ## Running
 Run the playbook, this will install and setup all service. And can take a few minutes (30 mins) to finish : 
 
 `ansible-playbook -v -i inventory/hosts playbook.yaml`
 
-If everything went correctly you should now be able to access the services : 
+If everything went correctly the interface should have started and you should now be able to access the services : 
 - Grafana at http://grafana.<hostname>
 - InfluxDB at http://influx.<hostname>
 - The webUI at http://webui.<hostname>
