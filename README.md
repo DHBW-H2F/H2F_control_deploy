@@ -52,3 +52,6 @@ Log can be viewed with `docker-compose logs` while in the service folder.
 Started services can be viewed with `docker ps`.
 
 Services can be started/stopped with `docker-compose up`/`docker-compose down`.
+
+# Testing
+To create a test environment for this project see more informations at [Testing.md](/docs/Testing.md).
