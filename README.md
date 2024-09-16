@@ -10,7 +10,15 @@ You should have access to the server via ssh, for security and convenience it is
 Network setup with outside remotes and local devices (WiFi authentification, IP assignement, USB authorisation, ...) has to be done according to your installation prior to running this playbook (See [network-setup.md](/docs/network-setup.md) for more information).
 > :warning: Make sure to reflect your installation in the configuration ([bridge_config](https://github.com/lkzjdnb/bridge_config)).
 
+> If you are running this playbook on a test environment without devices (VM for example) see [Testing](#testing)
+
 ## Setup
+Download the playbook:
+```
+git clone https://github.com/lkzjdnb/H2F_control_deploy.git
+cd H2F_control_deploy
+```
+
 Add the remote to the `inventory/hosts` file : 
 
 `remote_name ansible_host=<remote_url> ansible_ssh_user=<username> ansible_ssh_pipelining=False`
