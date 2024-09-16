@@ -43,7 +43,7 @@ influxd inspect export-lp \
 ## Running
 Run the playbook, this will install and setup all service. And can take a few minutes (30 mins) to finish : 
 
-`ansible-playbook -v -i inventory/hosts playbook.yaml`
+`ansible-playbook -v -i inventory/hosts playbook.yaml --tags "install-all"`
 
 If everything went correctly the interface should have started and you should now be able to access the services : 
 - Grafana at http://grafana.<hostname>
