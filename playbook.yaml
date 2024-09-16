@@ -1,6 +1,8 @@
 ---
 - name: Install H2F station software
   hosts: station_servers
+  vars_files:
+    - repos.yml
 
   tasks:
     - name: Setup the environment

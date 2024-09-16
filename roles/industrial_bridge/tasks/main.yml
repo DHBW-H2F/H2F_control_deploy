@@ -10,7 +10,7 @@
 
 - name: Clone the main repo
   ansible.builtin.git:
-    repo: https://github.com/lkzjdnb/industrial_bridge.git
+    repo: "{{ industrial_bridge_repo }}"
     dest: "{{ builddir }}/industrial_bridge"
     
 - name: Upload the test entrypoint if we're in the test environment
@@ -23,7 +23,7 @@
 
 - name: Clone the config repo
   ansible.builtin.git:
-    repo: https://github.com/lkzjdnb/bridge_config.git
+    repo: "{{ bridge_config_repo }}"
     dest: "{{ builddir }}/config"
 
 - name: Start the influxdb image for initial setup 

@@ -10,7 +10,7 @@
 
 - name: Clone the main repo
   ansible.builtin.git:
-    repo: https://github.com/lkzjdnb/H2F_control.git
+    repo: "{{ H2F_control_repo }}"
     dest: "{{ builddir }}/webUI"
     version: etn
 
