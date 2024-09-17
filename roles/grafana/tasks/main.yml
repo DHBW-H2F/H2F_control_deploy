@@ -74,7 +74,7 @@
 - name: Import it into grafana
   community.docker.docker_container_exec:
     container: influxdb
-    command: "influx write --bucket {{ influx_bucket }} --file /home/influxdb/{{ item }} --compression gzip"
+    command: "influx write --bucket {{ influx_bucket }} --file /home/influxdb/{{ item }}"
   loop: "{{ influx_migrate_file | default([]) }}"
   
 - name: Stop the image 
