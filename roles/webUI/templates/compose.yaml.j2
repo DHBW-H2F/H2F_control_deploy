@@ -7,6 +7,10 @@ services:
     labels:
       - traefik.http.routers.webui.rule=HostRegexp(`^webui\..+$$`)
       - traefik.http.services.webui.loadbalancer.server.port=8000
+{% if webui_test_environment %}
+    cap_add:
+      - NET_ADMIN
+{% endif %}
 
 networks:
   webUI:

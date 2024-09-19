@@ -12,7 +12,16 @@
   ansible.builtin.git:
     repo: "{{ H2F_control_repo }}"
     dest: "{{ builddir }}/webUI"
-    version: etn
+    version: main
+
+- name: Upload the test entrypoint if we're in the test environment
+  template:
+    src: templates/set_iptable.sh.j2
+    dest: "{{ builddir }}/test_entrypoint.sh"
+    mode: '0774'
+  when:
+    webui_test_environment
+
 
 - name: Upload the Dockefile
   ansible.builtin.template:

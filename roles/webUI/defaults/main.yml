@@ -1,2 +1,4 @@
 ---
 webui_folder: "{{ folder }}/webui"
+webui_test_environment: false
+

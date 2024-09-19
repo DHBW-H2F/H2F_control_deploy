@@ -1,0 +1,6 @@
+#! /bin/sh
+HOST_IP=$(/sbin/ip route|awk '/default/ { print $3 }')
+iptables -t nat -A OUTPUT -d 192.168.1.12 -j DNAT --to-destination $HOST_IP
+iptables -t nat -A OUTPUT -d 192.168.1.16 -j DNAT --to-destination $HOST_IP
+iptables -t nat -A OUTPUT -d 192.168.1.32 -j DNAT --to-destination $HOST_IP
+webUI
