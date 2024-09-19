@@ -5,8 +5,9 @@
     - repos.yml
 
   tasks:
-    - name: Setup the environment
-      include_tasks: setup-env.yml
+    - block:
+      - name: Setup the environment
+        include_tasks: setup-env.yml
       tags:
         - install-all
         - setup-env
