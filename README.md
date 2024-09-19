@@ -41,6 +41,8 @@ influxd inspect export-lp \
 > Make sure to remove it from the configuration after this initial install otherwise each subsequent update will reupload the data
 
 ## Running
+> Because Ansible support on Windows is not easy, a thin docker wrapper around ansible is provided. See [running using docker](docs/Running-on-docker.md)
+
 Run the playbook, this will install and setup all service. And can take a few minutes (30 mins) to finish : 
 
 `ansible-playbook -v -i inventory/hosts playbook.yaml --tags "install-all"`
