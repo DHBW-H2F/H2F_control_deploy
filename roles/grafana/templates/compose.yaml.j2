@@ -10,6 +10,7 @@ services:
       - "{{ ansible_facts.env['PWD'] }}/{{ grafana_folder }}/datasources:/etc/grafana/provisioning/datasources"
       - "{{ ansible_facts.env['PWD'] }}/{{ grafana_folder }}/dashboards:/var/lib/grafana/dashboards"
       - "{{ ansible_facts.env['PWD'] }}/{{ grafana_folder }}/dashboards_provisioning_config:/etc/grafana/provisioning/dashboards"
+      - "{{ ansible_facts.env['PWD'] }}/{{ grafana_folder }}/background:/usr/share/grafana/public/img/bg"
     user: "1000:1000"
     environment:
       - GF_SECURITY_ALLOW_EMBEDDING=true 

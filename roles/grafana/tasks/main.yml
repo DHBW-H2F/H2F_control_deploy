@@ -14,6 +14,20 @@
     state: directory
     mode: '0755'
 
+- name: Create the backgrounds folder
+  ansible.builtin.file:
+    path: "{{ grafana_folder }}/background"
+    state: directory
+    mode: '0755'
+
+- name: Upload the background images
+  ansible.builtin.copy:
+    src: files/{{ item }}
+    dest: "{{ grafana_folder }}/background/{{ item }}"
+    mode: '0644'
+  loop:
+    - background.png
+
 - name: Create the dashboard provisionning config
   ansible.builtin.file:
     path: "{{ grafana_folder }}/dashboards_provisioning_config"
