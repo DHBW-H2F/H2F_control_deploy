@@ -9,6 +9,16 @@
     - clean-webui
     
 - block:
+    - name: Stop the bridge
+      include_role:
+        name: industrial_bridge
+        tasks_from: stop.yml
+  tags:
+    - fullclean
+    - clean-bridge
+    - clean-grafana
+    
+- block:
     - name: Stop grafana
       include_role:
         name: grafana
@@ -33,12 +43,3 @@
         tasks_from: stop.yml
   tags:
     - fullclean
-    
-- block:
-    - name: Stop the bridge
-      include_role:
-        name: industrial_bridge
-        tasks_from: stop.yml
-  tags:
-    - fullclean
-    - clean-bridge

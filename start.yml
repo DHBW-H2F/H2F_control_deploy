@@ -45,3 +45,4 @@
   tags:
     - install-all
     - install-bridge
+    - clean-grafana
