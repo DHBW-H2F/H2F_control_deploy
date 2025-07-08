@@ -4,8 +4,8 @@ domain: H2F
 
 influx_pass: DHBW2024
 
-influx_migrate_file:
-  - backup.lp.gz
+#influx_migrate_file:
+#  - backup.lp.gz
 
 bridge_test_environment: true
 webui_test_environment: true
