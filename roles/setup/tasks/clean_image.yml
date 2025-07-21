@@ -1,0 +1,4 @@
+- name: Remove image
+  community.docker.docker_image:
+    state: absent
+    name: setup

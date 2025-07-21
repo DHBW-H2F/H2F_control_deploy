@@ -22,7 +22,7 @@ After=getty@%i.service
 
 [Service]
 Type=simple
-ExecStart=/bin/bash -c 'mkdir -p /tmp/kiosk-profile; until curl -s --head --fail http://webui.h2f/ConfigurationPanel.html; do sleep 1; done;exec /usr/bin/cage -- firefox --no-remote --kiosk --private-window --profile /tmp/kiosk-prosk-profile http://webui.h2f/ConfigurationPanel.html'
+ExecStart=/home/client/station_control/setup/launch.sh
 
 Restart=always
 User={{ ansible_user_id }}

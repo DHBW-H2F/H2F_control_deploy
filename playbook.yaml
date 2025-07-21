@@ -38,6 +38,7 @@
         - install-bridge
         - install-traefik
         - install-kiosk
+        - install-setup
 
     - name: Start
       include_tasks: start.yml
@@ -48,3 +49,4 @@
         - install-bridge
         - install-traefik
         - install-kiosk
+        - install-setup

@@ -43,3 +43,11 @@
         tasks_from: stop.yml
   tags:
     - fullclean
+
+- block:
+    - name: Stop the setup
+      include_role:
+        name: setup
+        tasks_from: stop.yml
+  tags:
+    - fullclean

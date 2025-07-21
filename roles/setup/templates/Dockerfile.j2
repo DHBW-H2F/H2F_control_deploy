@@ -1,0 +1,19 @@
+FROM ubuntu:22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Installer git, bash et d'autres outils utiles
+RUN apt-get update && \
+    apt-get install -y git bash && \
+    apt-get clean
+
+# Cloner un dépôt Git (ex. un dépôt public)
+RUN git clone https://github.com/DHBW-H2F/H2F_control_deploy
+
+# Se positionner dans le répertoire cloné
+WORKDIR /H2F_control_deploy
+
+COPY ../../testkey .
+RUN mv testkey ssh_key
+# Définir bash comme shell par défaut
+CMD ["bash"]
