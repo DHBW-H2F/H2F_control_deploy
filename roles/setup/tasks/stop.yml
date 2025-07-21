@@ -1,5 +1,5 @@
 - name: Stop the compose file
   community.docker.docker_compose:
-    project_src: "{{ webui_folder }}"
+    project_src: "{{ setup_folder }}"
     state: absent
   register: output

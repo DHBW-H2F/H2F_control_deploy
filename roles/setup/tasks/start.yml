@@ -1,4 +1,4 @@
 - name: Start the compose file
   community.docker.docker_compose:
-    project_src: "{{ webui_folder }}"
+    project_src: "{{ setup_folder }}"
   register: output
