@@ -8,12 +8,6 @@
 - set_fact: 
     builddir: "{{ builddir_res.path }}"
 
-- name: Clone the main repo
-  ansible.builtin.git:
-    repo: "{{ H2F_control_deploy_repo }}"
-    dest: "{{ builddir }}/setup"
-    version: main
-
 - name: Upload the Dockefile
   ansible.builtin.template:
     src: templates/Dockerfile.j2
