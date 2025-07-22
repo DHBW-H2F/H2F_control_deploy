@@ -102,7 +102,7 @@ case $mode in
     [3]="clean-bridge"
     )
     ;;
-
+esac
 # Read service selections
 read -p "Enter the number(s) separated by spaces: " input
 
