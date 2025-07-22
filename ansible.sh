@@ -6,8 +6,8 @@ git pull
 clear
 # Step 1: Main action choice
 echo "What would you like to do?"
-echo "1) Clean (remove previous installation)"
-echo "2) Install (set up services)"
+echo "1) Install (set up services))"
+echo "2) Clean (remove previous installation"
 echo "3) Rebuild ( clean + install )"
 echo "4) Exit"
 
