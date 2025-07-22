@@ -25,6 +25,9 @@
   tags:
     - install-all
     - install-traefik
+    - install-webui
+    - install-bridge
+    - install-grafana
     - clean-grafana
     - clean-webui
     
@@ -54,3 +57,4 @@
         tasks_from: start.yml
   tags:
     - install-all
+    - install-setup

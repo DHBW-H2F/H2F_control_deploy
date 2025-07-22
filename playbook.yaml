@@ -19,6 +19,9 @@
         - clean-grafana
         - clean-webui
         - clean-bridge
+        - clean-setup
+        - clean-traefik
+        - clean-kiosk
 
     - name: Clean previous install
       include_tasks: clean.yml
@@ -27,6 +30,8 @@
         - clean-grafana
         - clean-webui
         - clean-bridge
+        - clean-setup
+
 
     - name: Install
       include_tasks: install.yml
