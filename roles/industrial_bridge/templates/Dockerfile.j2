@@ -3,7 +3,7 @@ RUN apk add --no-cache musl-dev
 EnV CARGO_NET_GIT_FETCH_WITH_CLI=true
 COPY industrial_bridge industrial_bridge
 WORKDIR industrial_bridge
-RUN apk add --no-cache muls-dev git
+RUN apk add --no-cache musl-dev git
 RUN cargo install --path .
 
 FROM alpine:3.20
