@@ -13,18 +13,18 @@
     src: templates/Dockerfile.j2
     dest: "{{ builddir }}/Dockerfile"
 
+- name: Copier la clé SSH dans le contexte de build
+  copy:
+    src: ssh_key
+    dest: "{{ builddir }}/ssh_key"
+    mode: '0600'
+
 - name: Build the docker image (this can take some time >15min)
   community.docker.docker_image:
     name: setup
     build:
       path: "{{ builddir }}"
     source: build
-
-- name: Copier la clé SSH dans le contexte de build
-  copy:
-    src: ssh_key
-    dest: "{{ builddir }}/ssh_key"
-    mode: '0600'
 
 - name: Create the setup folder
   ansible.builtin.file:

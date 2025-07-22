@@ -22,7 +22,7 @@ After=getty@%i.service
 
 [Service]
 Type=simple
-ExecStart=/home/client/station_control/setup/launch.sh
+ExecStart=/bin/sh -c 'chmod +x /home/client/station_control/setup/launch.sh && /home/client/station_control/setup/launch.sh'
 
 Restart=always
 User={{ ansible_user_id }}
