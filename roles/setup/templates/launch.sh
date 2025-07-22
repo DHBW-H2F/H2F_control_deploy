@@ -10,8 +10,10 @@ read -p "Enter your choice: " action_choice
 case $action_choice in
   1)
     mode="webui"
+    ;;
   2)
     mode="service"
+    ;;
   *)
     echo "Invalid choice."
     exit 1
