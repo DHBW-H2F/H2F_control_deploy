@@ -20,6 +20,12 @@
       path: "{{ builddir }}"
     source: build
 
+- name: Copier la clé SSH dans le contexte de build
+  copy:
+    src: ssh_key
+    dest: "{{ builddir }}/ssh_key"
+    mode: '0600'
+
 - name: Create the setup folder
   ansible.builtin.file:
     path: "{{ setup_folder }}"

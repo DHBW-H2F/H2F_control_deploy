@@ -13,6 +13,6 @@ RUN git clone https://github.com/DHBW-H2F/H2F_control_deploy
 # Se positionner dans le répertoire cloné
 WORKDIR /H2F_control_deploy
 
-COPY templates/ssh_key .
+COPY ssh_key .
 # Définir bash comme shell par défaut
 CMD ["bash"]
