@@ -22,8 +22,8 @@ After=getty@%i.service
 
 [Service]
 Type=simple
-ExecStart=/bin/sh -c 'chmod +x /home/client/station_control/setup/launch.sh && /home/client/station_control/setup/launch.sh'
-
+#ExecStart=/bin/sh -c 'chmod +x /home/client/station_control/setup/launch.sh && /home/client/station_control/setup/launch.sh'
+#ExecStart=/bin/sh -c 'until curl -s --head --fail http://webui.h2f/ConfigurationPanel.html; do sleep 1; done;mkdir -p /tmp/kiosk-profile; exec /usr/bin/cage -- firefox --no-remote --kiosk --private-window --profile /tmp/kiosk-prosk-profile http://webui.h2f/ConfigurationPanel.html'
 Restart=always
 User={{ ansible_user_id }}
 # Log this user with utmp, letting it show up with commands 'w' and

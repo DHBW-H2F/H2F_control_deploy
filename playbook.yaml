@@ -19,9 +19,9 @@
         - clean-grafana
         - clean-webui
         - clean-bridge
-        - clean-setup
         - clean-traefik
         - clean-kiosk
+        #- clean-setup
 
     - name: Clean previous install
       include_tasks: clean.yml
@@ -30,7 +30,7 @@
         - clean-grafana
         - clean-webui
         - clean-bridge
-        - clean-setup
+        #- clean-setup
 
 
     - name: Install
@@ -43,7 +43,7 @@
         - install-bridge
         - install-traefik
         - install-kiosk
-        - install-setup
+        #- install-setup
 
     - name: Start
       include_tasks: start.yml
@@ -54,4 +54,4 @@
         - install-bridge
         - install-traefik
         - install-kiosk
-        - install-setup
+        #- install-setup
