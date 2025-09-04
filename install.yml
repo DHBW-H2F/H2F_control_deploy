@@ -48,10 +48,10 @@
     - install-all
     - install-bridge
 
-#- block:
-#  - name: Install the setup
-#    include_role:
-#      name: setup
-#  tags:
-#    - install-all
-#    - install-setup
+- block:
+  - name: Install the setup
+    include_role:
+      name: setup
+  tags:
+    - install-all
+    - install-setup

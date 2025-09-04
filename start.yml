@@ -50,11 +50,11 @@
     - install-bridge
     - clean-grafana
 
-#- block:
-#    - name: Start the setup
-#      include_role:
-#        name: setup
-#        tasks_from: start.yml
-#  tags:
-#    - install-all
-#    - install-setup
+- block:
+    - name: Start the setup
+      include_role:
+        name: setup
+        tasks_from: start.yml
+  tags:
+    - install-all
+    - install-setup
